@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:orientation="vertical"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF0707"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/quizbackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Background Image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/quizbackground" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"/>
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding = "24dp">
 
     <TextView
         android:id="@+id/Welcome"
@@ -17,7 +34,7 @@
         android:text="Welcome to Quiz Central!"
         android:textSize="35sp"
         android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textColor="#05F80F"/>
 
     <EditText
         android:id="@+id/email_login"
@@ -25,7 +42,8 @@
         android:layout_height="wrap_content"
         android:hint="Email: "
         android:textStyle="bold"
-        android:textColor="@color/white"
+        android:textColor="#05F80F"
+        android:textColorHint="#05F80F"
         android:inputType="textPersonName"
         android:textSize="25sp" />
 
@@ -35,7 +53,8 @@
         android:layout_height="wrap_content"
         android:hint="Password: "
         android:textStyle="bold"
-        android:textColor="@color/white"
+        android:textColor="#05F80F"
+        android:textColorHint="#05F80F"
         android:inputType="textPassword"
         android:textSize="25sp" />
 
@@ -44,6 +63,8 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:textSize="25sp"
+        android:backgroundTint="#05F80F"
+        android:textColor="@color/black"
         android:id="@+id/btnLogin"/>
 
     <Button
@@ -51,7 +72,10 @@
         android:layout_height="wrap_content"
         android:text="Register"
         android:textSize="25sp"
+        android:backgroundTint="#05F80F"
+        android:textColor="@color/black"
         android:id="@+id/btnRegister"/>
 
+    </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

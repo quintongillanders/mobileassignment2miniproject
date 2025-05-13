@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="#FF0707"
     tools:context=".AdminActivity">
+
+    <ImageView
+        android:id="@+id/quizbackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Background Image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/quizbackground" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"/>
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding = "24dp">
 
     <TextView
         android:id="@+id/AdminWelcome"
@@ -17,34 +34,43 @@
         android:text="Admin control panel"
         android:textSize="35sp"
         android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textColor="#05F80F"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Quiz"
         android:textSize="25sp"
-        android:id="@+id/btnAdd"/>
-
+        android:id="@+id/btnAdd"
+        android:backgroundTint="#05F80F"
+        android:textColor="@color/black"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update Quiz"
         android:textSize="25sp"
-        android:id="@+id/btnUpdate"/>
+        android:id="@+id/btnUpdate"
+        android:backgroundTint="#05F80F"
+        android:textColor="@color/black"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete Quiz"
         android:textSize="25sp"
-        android:id="@+id/btnDelete"/>
+        android:id="@+id/btnDelete"
+        android:backgroundTint="#05F80F"
+        android:textColor="@color/black"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logout"
         android:textSize="25sp"
-        android:id="@+id/btnLogout"/>
+        android:id="@+id/btnLogout"
+        android:backgroundTint="#05F80F"
+        android:textColor="@color/black"/>
 
 </LinearLayout>
+</FrameLayout>

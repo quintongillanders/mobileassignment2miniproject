@@ -58,16 +58,16 @@ public class RegisterActivity extends AppCompatActivity {
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                         .addOnSuccessListener(authResult -> {
                             String uid = firebaseAuth.getUid();
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("email", email);
-                            String role;
+                           String role;
+                           if (email.endsWith("@quizcentral.com")) {
+                               role = "admin";
+                           } else {
+                               role = "user";
+                           }
 
-                            if(email.endsWith("@quizcentral")) {
-                                role =  "admin";
-                            } else {
-                                role = "user";
-
-                            }
+                           Map<String, Object> user = new HashMap<>();
+                           user.put("email", email);
+                           user.put("role", role);
 
                             db.collection("Users")
                                     .document(uid)
@@ -79,9 +79,8 @@ public class RegisterActivity extends AppCompatActivity {
                                         if (role.equals("admin")) {
                                             startActivity(new Intent(RegisterActivity.this, AdminActivity.class));
                                         } else {
-                                            startActivity(new Intent(RegisterActivity.this,QuizHomeScreenActivity.class));
+                                            startActivity(new Intent(RegisterActivity.this, QuizHomeScreenActivity.class));
                                         }
-                                        startActivity(new Intent(RegisterActivity.this, QuizHomeScreenActivity.class));
                                         finish();
                                     })
                                     .addOnFailureListener(e -> {
