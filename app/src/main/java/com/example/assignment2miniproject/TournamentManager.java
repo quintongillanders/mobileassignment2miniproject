@@ -8,10 +8,15 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class TournamentManager {
     private static TournamentManager instance;
+    private List<TournamentItem> upcomingTournaments = new ArrayList<>();
+    private List<TournamentItem> ongoingTournaments = new ArrayList<>();
+    private List<TournamentItem> pastTournaments = new ArrayList<>();
     private final List<TournamentItem> tournaments = new ArrayList<>();
 
     private TournamentManager() {}
@@ -27,9 +32,22 @@ public class TournamentManager {
         saveTournaments(context);
     }
 
-    public List<TournamentItem> getTournaments() {
+    public List<TournamentItem> getAllTournaments() {
         return tournaments;
     }
+
+    public List<TournamentItem> getUpcomingTournaments() {
+        return upcomingTournaments;
+    }
+
+    public List<TournamentItem> getOngoingTournaments() {
+        return ongoingTournaments;
+    }
+
+    public List<TournamentItem> getPastTournaments() {
+        return pastTournaments;
+    }
+
 
     public void saveTournaments(Context context) {
         SharedPreferences prefs = context.getSharedPreferences("tournament_prefs", Context.MODE_PRIVATE);
@@ -52,6 +70,58 @@ public class TournamentManager {
             tournaments.clear();
             tournaments.addAll(loadedTournaments);
 
+        }
+    }
+
+    public void updateTournamentLists() {
+        upcomingTournaments.clear();
+        ongoingTournaments.clear();
+        pastTournaments.clear();
+
+        Date now = new Date();
+
+        for (TournamentItem t : tournaments) {
+            Date start = t.getStartDate();
+            Date end = t.getEndDate();
+
+            if (start == null) {
+                upcomingTournaments.add(t);
+            } else if (end == null) {
+                if (start.before(now) || start.equals(now)) {
+                    ongoingTournaments.add(t);
+                } else {
+                    upcomingTournaments.add(t);
+                }
+            } else {
+                if (end.before(now)) {
+                    pastTournaments.add(t);
+                } else {
+                    upcomingTournaments.add(t);
+
+                }
+            }
+        }
+    }
+
+    public void moveEndedTournamentsToPast(Context context) {
+        Date now = new Date();
+
+        Iterator<TournamentItem> iterator = ongoingTournaments.iterator();
+        boolean changed = false;
+
+        while (iterator.hasNext()) {
+            TournamentItem t = iterator.next();
+            Date end = t.getEndDate();
+            if (end != null && end.before(now)) {
+                pastTournaments.add(t);
+                iterator.remove();
+
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            saveTournaments(context);
         }
     }
 }

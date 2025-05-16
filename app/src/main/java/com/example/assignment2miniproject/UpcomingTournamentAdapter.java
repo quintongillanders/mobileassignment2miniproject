@@ -6,7 +6,6 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.text.Html;
 
@@ -17,25 +16,25 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.TournamentViewHolder> {
+public class UpcomingTournamentAdapter extends RecyclerView.Adapter<UpcomingTournamentAdapter.UpcomingTournamentViewHolder> {
     private Context context;
     private List<TournamentItem> tournamentList;
 
-    public TournamentAdapter(Context context, List<TournamentItem> tournamentList) {
+    public UpcomingTournamentAdapter(Context context, List<TournamentItem> tournamentList) {
         this.context = context;
         this.tournamentList = tournamentList;
     }
 
     @NonNull
     @Override
-    public TournamentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UpcomingTournamentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.tournament_item, parent, false);
-        return new TournamentViewHolder(view);
+                .inflate(R.layout.upcoming_item, parent, false);
+        return new UpcomingTournamentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TournamentViewHolder holder, int position) {
+    public void onBindViewHolder(UpcomingTournamentViewHolder holder, int position) {
         TournamentItem quiz = tournamentList.get(position);
 
         String category = quiz.getCategory() != null ? quiz.getCategory() : "";
@@ -44,20 +43,17 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.To
             holder.categoryTextView.setText(Html.fromHtml(category, Html.FROM_HTML_MODE_LEGACY));
         } else {
             holder.categoryTextView.setText(quiz.getCategory());
+
         }
 
         holder.difficultyTextView.setText(quiz.getDifficulty() != null ? quiz.getDifficulty(): "");
 
-        if (quiz.getEndDate() != null) {
+        if(quiz.getStartDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            holder.endDate.setText("Ends on: " + sdf.format(quiz.getEndDate()));
+            holder.startDateTextView.setText("Starts on: " + sdf.format(quiz.getStartDate()));
         } else {
-            holder.endDate.setText("End date not avalilable");
+            holder.startDateTextView.setText("Start date not available");
         }
-
-        holder.beginTournamentButton.setOnClickListener(v -> {
-           // todo: handle begin tournament
-        });
     }
 
     @Override
@@ -65,20 +61,16 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.To
         return tournamentList.size();
     }
 
-    public static class TournamentViewHolder extends RecyclerView.ViewHolder {
+    public static class UpcomingTournamentViewHolder extends RecyclerView.ViewHolder {
         TextView categoryTextView;
         TextView difficultyTextView;
+        TextView startDateTextView;
 
-        TextView endDate;
-        Button beginTournamentButton;
-
-        public TournamentViewHolder(View itemView) {
+        public UpcomingTournamentViewHolder(View itemView) {
             super(itemView);
             categoryTextView = itemView.findViewById(R.id.txtCategory);
             difficultyTextView = itemView.findViewById(R.id.txtDifficulty);
-
-            endDate = itemView.findViewById(R.id.txtEndDate);
-            beginTournamentButton = itemView.findViewById(R.id.btnBegin);
+            startDateTextView = itemView.findViewById(R.id.txtStartDate);
         }
     }
 }

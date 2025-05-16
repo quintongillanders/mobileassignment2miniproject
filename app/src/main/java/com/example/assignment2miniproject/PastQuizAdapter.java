@@ -17,68 +17,66 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.TournamentViewHolder> {
+public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQuizViewHolder> {
     private Context context;
-    private List<TournamentItem> tournamentList;
+    private List<TournamentItem> quizList;
 
-    public TournamentAdapter(Context context, List<TournamentItem> tournamentList) {
+    public PastQuizAdapter(Context context, List<TournamentItem> quizList) {
         this.context = context;
-        this.tournamentList = tournamentList;
+        this.quizList = quizList;
     }
 
     @NonNull
     @Override
-    public TournamentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PastQuizViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.tournament_item, parent, false);
-        return new TournamentViewHolder(view);
+                .inflate(R.layout.past_item, parent, false);
+        return new PastQuizViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TournamentViewHolder holder, int position) {
-        TournamentItem quiz = tournamentList.get(position);
+    public void onBindViewHolder(PastQuizViewHolder holder, int position) {
+        TournamentItem quiz = quizList.get(position);
 
         String category = quiz.getCategory() != null ? quiz.getCategory() : "";
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder.categoryTextView.setText(Html.fromHtml(category, Html.FROM_HTML_MODE_LEGACY));
         } else {
             holder.categoryTextView.setText(quiz.getCategory());
+
         }
 
-        holder.difficultyTextView.setText(quiz.getDifficulty() != null ? quiz.getDifficulty(): "");
+        holder.difficultyTextView.setText(quiz.getDifficulty() != null ? quiz.getDifficulty() : "");
 
         if (quiz.getEndDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            holder.endDate.setText("Ends on: " + sdf.format(quiz.getEndDate()));
+            holder.endDate.setText("Ended on: " + sdf.format(quiz.getEndDate()));
         } else {
             holder.endDate.setText("End date not avalilable");
         }
 
-        holder.beginTournamentButton.setOnClickListener(v -> {
-           // todo: handle begin tournament
-        });
+
     }
 
     @Override
     public int getItemCount() {
-        return tournamentList.size();
+        return quizList.size();
     }
 
-    public static class TournamentViewHolder extends RecyclerView.ViewHolder {
+    public static class PastQuizViewHolder extends RecyclerView.ViewHolder {
         TextView categoryTextView;
         TextView difficultyTextView;
-
         TextView endDate;
-        Button beginTournamentButton;
+        Button btnLike, btnDislike;
 
-        public TournamentViewHolder(View itemView) {
+        public PastQuizViewHolder(View itemView) {
             super(itemView);
             categoryTextView = itemView.findViewById(R.id.txtCategory);
             difficultyTextView = itemView.findViewById(R.id.txtDifficulty);
-
+            btnDislike = itemView.findViewById(R.id.btnDislike);
+            btnLike = itemView.findViewById(R.id.btnLike);
             endDate = itemView.findViewById(R.id.txtEndDate);
-            beginTournamentButton = itemView.findViewById(R.id.btnBegin);
         }
     }
 }

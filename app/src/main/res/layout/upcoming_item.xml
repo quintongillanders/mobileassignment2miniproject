@@ -36,13 +36,15 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnCreate"
-            android:layout_width="155dp"
+
+        <TextView
+            android:id="@+id/txtStartDate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#F80505"
-            android:text="Create Tournament"
-            android:textColor="@color/black" />
+            android:text="Start date"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

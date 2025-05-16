@@ -14,6 +14,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OngoingQuizActivity extends AppCompatActivity {
@@ -31,14 +33,22 @@ public class OngoingQuizActivity extends AppCompatActivity {
             return insets;
         });
 
+
+
         RecyclerView recyclerView = findViewById(R.id.tournamentlist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        List<TournamentItem> tournaments = TournamentManager.getInstance().getOngoingTournaments();
+        TournamentAdapter adapter = new TournamentAdapter(this, tournaments);
         btnBack = findViewById(R.id.btnBack);
 
         TournamentManager.getInstance().loadTournaments(this);
 
-        List<TournamentItem> tournamentList = TournamentManager.getInstance().getTournaments();
-        TournamentAdapter adapter = new TournamentAdapter(this, tournamentList);
+
+        TournamentManager manager = TournamentManager.getInstance();
+        manager.loadTournaments(this);
+        manager.updateTournamentLists();
+        manager.moveEndedTournamentsToPast(this);
+
         recyclerView.setAdapter(adapter);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +60,10 @@ public class OngoingQuizActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
-}
+
+    }
+
 
 

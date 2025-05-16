@@ -54,7 +54,7 @@ public class AdminActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AdminActivity.this, UpdateQuizActivity.class);
                 startActivity(intent);
-                Toast.makeText(AdminActivity.this, "Delete Quiz Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminActivity.this, "Update Quiz Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 

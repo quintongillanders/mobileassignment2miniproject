@@ -1,15 +1,14 @@
 package com.example.assignment2miniproject;
 
-import static android.view.View.inflate;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.text.Html;
 import android.widget.Toast;
@@ -18,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
     private Context context;
@@ -41,24 +42,61 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         QuizItem quiz = quizList.get(position);
 
         String category = quiz.getCategory() != null ? quiz.getCategory() : "";
-        String sampleQuestion = quiz.getSampleQuestion() != null ? quiz.getSampleQuestion() : "";
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             holder.categoryTextView.setText(Html.fromHtml(category, Html.FROM_HTML_MODE_LEGACY));
-            holder.sampleQuestionTextView.setText(Html.fromHtml(sampleQuestion, Html.FROM_HTML_MODE_LEGACY));
         } else {
             holder.categoryTextView.setText(quiz.getCategory());
-            holder.sampleQuestionTextView.setText(quiz.getSampleQuestion());
+
         }
 
-        holder.difficultyTextView.setText(quiz.getDifficulty() != null ? quiz.getDifficulty(): "");
+        holder.difficultyTextView.setText(quiz.getDifficulty() != null ? quiz.getDifficulty() : "");
 
         holder.createTournamentButton.setOnClickListener(v -> {
-        TournamentItem tournament = new TournamentItem(category, sampleQuestion, quiz.getDifficulty());
+            Calendar currentCal = Calendar.getInstance();
 
-        TournamentManager.getInstance().addTournament(tournament, v.getContext());
+            DatePickerDialog startDatePicker = new DatePickerDialog(context,
+                    (DatePicker view, int startYear, int startMonth, int startDay) -> {
+                        Calendar startCal = Calendar.getInstance();
+                        startCal.set(startYear, startMonth, startDay);
 
-            Toast.makeText(context, "Tournament created!", Toast.LENGTH_SHORT).show();
+                        DatePickerDialog endDatePicker = new DatePickerDialog(context,
+                                (DatePicker view2, int endYear, int endMonth, int endDay) -> {
+                                    Calendar endCal = Calendar.getInstance();
+                                    endCal.set(endYear, endMonth, endDay);
+
+                                    if (endCal.before(startCal)) {
+                                        Toast.makeText(context, "End date needs to be set after the start date", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    TournamentItem tournament = new TournamentItem(
+                                            category,
+                                            quiz.getDifficulty(),
+                                            startCal.getTime(),
+                                            endCal.getTime()
+                                    );
+
+                                    TournamentManager.getInstance().addTournament(tournament, v.getContext());
+
+                                    Toast.makeText(context, "Tournament created!", Toast.LENGTH_SHORT).show();
+                                },
+                                currentCal.get(Calendar.YEAR),
+                                currentCal.get(Calendar.MONTH),
+                                currentCal.get (Calendar.DAY_OF_MONTH)
+                        );
+
+                        endDatePicker.setTitle("Select end date");
+                        endDatePicker.show();
+
+                    },
+                    currentCal.get(Calendar.YEAR),
+                    currentCal.get(Calendar.MONTH),
+                    currentCal.get(Calendar.DAY_OF_MONTH)
+        );
+
+            startDatePicker.setTitle("Select start date");
+            startDatePicker.show();
         });
     }
 
@@ -70,14 +108,13 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     public static class QuizViewHolder extends RecyclerView.ViewHolder {
         TextView categoryTextView;
         TextView difficultyTextView;
-        TextView sampleQuestionTextView;
+
         Button createTournamentButton;
 
         public QuizViewHolder(View itemView) {
             super(itemView);
             categoryTextView = itemView.findViewById(R.id.txtCategory);
             difficultyTextView = itemView.findViewById(R.id.txtDifficulty);
-            sampleQuestionTextView = itemView.findViewById(R.id.txtSampleQuestion);
             createTournamentButton = itemView.findViewById(R.id.btnCreate);
         }
     }
