@@ -1,5 +1,8 @@
 package com.example.assignment2miniproject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class QuizItem {
     private String category;
     private String difficulty;
@@ -33,5 +36,14 @@ public class QuizItem {
 
     public String getSampleQuestion() {
         return sampleQuestion;
+    }
+
+    public static List<QuizItem> fromQuestions(List<Question> questions) {
+        List<QuizItem> items = new ArrayList<>();
+        for (Question q : questions) {
+            items.add(new QuizItem(q.getCategory(), q.getDifficulty(), q.getQuestionText()));
+        }
+        return items;
+
     }
 }

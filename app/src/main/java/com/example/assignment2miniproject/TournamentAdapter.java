@@ -1,44 +1,40 @@
 package com.example.assignment2miniproject;
 
-import static android.view.View.inflate;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.text.Html;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder> {
+public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.TournamentViewHolder> {
     private Context context;
-    private List<QuizItem> quizList;
+    private List<TournamentItem> tournamentList;
 
-    public QuizAdapter(Context context, List<QuizItem> quizList) {
+    public TournamentAdapter(Context context, List<TournamentItem> tournamentList) {
         this.context = context;
-        this.quizList = quizList;
+        this.tournamentList = tournamentList;
     }
 
     @NonNull
     @Override
-    public QuizViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TournamentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.quiz_item, parent, false);
-        return new QuizViewHolder(view);
+                .inflate(R.layout.tournament_item, parent, false);
+        return new TournamentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(QuizViewHolder holder, int position) {
-        QuizItem quiz = quizList.get(position);
+    public void onBindViewHolder(TournamentViewHolder holder, int position) {
+        TournamentItem quiz = tournamentList.get(position);
 
         String category = quiz.getCategory() != null ? quiz.getCategory() : "";
         String sampleQuestion = quiz.getSampleQuestion() != null ? quiz.getSampleQuestion() : "";
@@ -53,32 +49,28 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
 
         holder.difficultyTextView.setText(quiz.getDifficulty() != null ? quiz.getDifficulty(): "");
 
-        holder.createTournamentButton.setOnClickListener(v -> {
-        TournamentItem tournament = new TournamentItem(category, sampleQuestion, quiz.getDifficulty());
-
-        TournamentManager.getInstance().addTournament(tournament, v.getContext());
-
-            Toast.makeText(context, "Tournament created!", Toast.LENGTH_SHORT).show();
+        holder.beginTournamentButton.setOnClickListener(v -> {
+           // todo: handle begin tournament
         });
     }
 
     @Override
     public int getItemCount() {
-        return quizList.size();
+        return tournamentList.size();
     }
 
-    public static class QuizViewHolder extends RecyclerView.ViewHolder {
+    public static class TournamentViewHolder extends RecyclerView.ViewHolder {
         TextView categoryTextView;
         TextView difficultyTextView;
         TextView sampleQuestionTextView;
-        Button createTournamentButton;
+        Button beginTournamentButton;
 
-        public QuizViewHolder(View itemView) {
+        public TournamentViewHolder(View itemView) {
             super(itemView);
             categoryTextView = itemView.findViewById(R.id.txtCategory);
             difficultyTextView = itemView.findViewById(R.id.txtDifficulty);
             sampleQuestionTextView = itemView.findViewById(R.id.txtSampleQuestion);
-            createTournamentButton = itemView.findViewById(R.id.btnCreate);
+            beginTournamentButton = itemView.findViewById(R.id.btnBegin);
         }
     }
 }

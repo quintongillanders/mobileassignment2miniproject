@@ -47,11 +47,11 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btnCreate"
+            android:id="@+id/btnBegin"
             android:layout_width="155dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#F80505"
-            android:text="Create Tournament"
+            android:text="Begin Tournament"
             android:textColor="@color/black" />
 
     </LinearLayout>
