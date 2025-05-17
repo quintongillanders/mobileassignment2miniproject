@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -22,10 +25,18 @@ import java.util.Locale;
 public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQuizViewHolder> {
     private Context context;
     private List<TournamentItem> quizList;
+    private Vote voteStore;
 
     public PastQuizAdapter(Context context, List<TournamentItem> quizList) {
         this.context = context;
         this.quizList = quizList;
+        String currentUserId = getCurrentUserId();
+        this.voteStore = new Vote(context, currentUserId);
+    }
+
+    private String getCurrentUserId() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        return (user != null) ? user.getUid() : "guest";
     }
 
     @NonNull
@@ -56,6 +67,14 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
             holder.endDate.setText("End date not avalilable");
         }
 
+        if (voteStore.hasVoted(quiz.getId())) {
+            quiz.setLikes(voteStore.getLikes(quiz.getId(), quiz.getLikes()));
+            quiz.setDislikes(voteStore.getDislikes(quiz.getId(), quiz.getDislikes()));
+            quiz.setHasVoted(true);
+
+            boolean liked = voteStore.isLiked(quiz.getId());
+        }
+
         holder.btnLike.setText("Like (" + quiz.getLikes() + ")");
         holder.btnDislike.setText("Dislike (" + quiz.getDislikes() + ")");
 
@@ -65,6 +84,7 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
         holder.btnLike.setOnClickListener(v -> {
             if (!quiz.hasVoted()) {
                 quiz.setLikes(quiz.getLikes() + 1);
+                voteStore.saveVoteWithCount(quiz.getId(), true, quiz.getLikes(), quiz.getDislikes());
                 quiz.setHasVoted(true);
                 notifyItemChanged(position);
                 Toast.makeText(context, "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
@@ -74,6 +94,7 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
         holder.btnDislike.setOnClickListener(v -> {
             if (!quiz.hasVoted()) {
                 quiz.setDislikes(quiz.getDislikes() + 1);
+                voteStore.saveVoteWithCount(quiz.getId(), false, quiz.getLikes(), quiz.getDislikes());
                 quiz.setHasVoted(true);
                 notifyItemChanged(position);
                 Toast.makeText(context, "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
