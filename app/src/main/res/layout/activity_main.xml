@@ -34,7 +34,7 @@
         android:text="Welcome to Quiz Central!"
         android:textSize="35sp"
         android:textStyle="bold"
-        android:textColor="#05F80F"/>
+        android:textColor="#05FAE4"/>
 
     <EditText
         android:id="@+id/email_login"
@@ -42,8 +42,8 @@
         android:layout_height="wrap_content"
         android:hint="Email: "
         android:textStyle="bold"
-        android:textColor="#05F80F"
-        android:textColorHint="#05F80F"
+        android:textColor="#05FAE4"
+        android:textColorHint="#05FAE4"
         android:inputType="textPersonName"
         android:textSize="25sp" />
 
@@ -53,8 +53,8 @@
         android:layout_height="wrap_content"
         android:hint="Password: "
         android:textStyle="bold"
-        android:textColor="#05F80F"
-        android:textColorHint="#05F80F"
+        android:textColor="#05FAE4"
+        android:textColorHint="#05FAE4"
         android:inputType="textPassword"
         android:textSize="25sp" />
 
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:textSize="25sp"
-        android:backgroundTint="#05F80F"
+        android:backgroundTint="#05FAE4"
         android:textColor="@color/black"
         android:id="@+id/btnLogin"/>
 
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:text="Register"
         android:textSize="25sp"
-        android:backgroundTint="#05F80F"
+        android:backgroundTint="#05FAE4"
         android:textColor="@color/black"
         android:id="@+id/btnRegister"/>
 

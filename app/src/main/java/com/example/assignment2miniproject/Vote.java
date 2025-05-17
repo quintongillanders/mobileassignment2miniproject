@@ -18,7 +18,7 @@ public class Vote {
     }
 
     public boolean isLiked(String quizId) {
-        return prefs.getBoolean(keyPrefix + quizId, true); // if false, dislike quiz, if true, liked quiz
+        return prefs.getBoolean(keyPrefix + quizId + "_liked", true); // if false, dislike quiz, if true, liked quiz
         }
 
         public void saveVoteWithCount(String quizId,boolean liked, int likes, int dislikes) {

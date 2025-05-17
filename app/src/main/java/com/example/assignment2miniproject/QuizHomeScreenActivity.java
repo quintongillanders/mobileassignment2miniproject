@@ -37,7 +37,6 @@ Button btnOngoing, btnUpcoming, btnPast, btnLogout;
             public void onClick(View v) {
                 Intent intent = new Intent(QuizHomeScreenActivity.this, OngoingQuizActivity.class);
                 startActivity(intent);
-                Toast.makeText(QuizHomeScreenActivity.this, "Ongoing Tournaments Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -46,7 +45,6 @@ Button btnOngoing, btnUpcoming, btnPast, btnLogout;
             public void onClick(View v) {
                 Intent intent = new Intent(QuizHomeScreenActivity.this, UpcomingQuizActivity.class);
                 startActivity(intent);
-                Toast.makeText(QuizHomeScreenActivity.this, "Upcoming Tournaments Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -55,7 +53,6 @@ Button btnOngoing, btnUpcoming, btnPast, btnLogout;
             public void onClick(View v) {
                 Intent intent = new Intent(QuizHomeScreenActivity.this, PreviousTournamentActivity.class);
                 startActivity(intent);
-                Toast.makeText(QuizHomeScreenActivity.this, "Past Tournaments Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 

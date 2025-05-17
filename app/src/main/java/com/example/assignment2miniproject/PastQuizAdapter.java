@@ -15,8 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,12 +29,18 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
     private Context context;
     private List<TournamentItem> quizList;
     private Vote voteStore;
+    private FirebaseFirestore db;
+    private String currentUserId;
 
     public PastQuizAdapter(Context context, List<TournamentItem> quizList) {
         this.context = context;
         this.quizList = quizList;
+        db = FirebaseFirestore.getInstance();
         String currentUserId = getCurrentUserId();
         this.voteStore = new Vote(context, currentUserId);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();;
+        currentUserId = (user != null) ? user.getUid() : null;
     }
 
     private String getCurrentUserId() {
@@ -67,16 +76,35 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
             holder.endDate.setText("End date not avalilable");
         }
 
-        if (voteStore.hasVoted(quiz.getId())) {
-            quiz.setLikes(voteStore.getLikes(quiz.getId(), quiz.getLikes()));
-            quiz.setDislikes(voteStore.getDislikes(quiz.getId(), quiz.getDislikes()));
-            quiz.setHasVoted(true);
+            boolean hasUserVoted = voteStore.hasVoted(quiz.getId());
+            quiz.setHasVoted(hasUserVoted);
 
-            boolean liked = voteStore.isLiked(quiz.getId());
+            if (hasUserVoted) {
+                quiz.setLikes(voteStore.getLikes(quiz.getId(), quiz.getLikes()));
+                quiz.setDislikes(voteStore.getDislikes(quiz.getId(), quiz.getDislikes()));
+
+                boolean liked = voteStore.isLiked(quiz.getId());
+
+                if (liked) {
+                    holder.btnLike.setAlpha(1f);
+                    holder.btnDislike.setAlpha(0.5f);
+                } else {
+                    holder.btnLike.setAlpha(0.5f);
+                    holder.btnDislike.setAlpha(1f);
+                }
+
+                holder.btnLike.setEnabled(false);
+                holder.btnDislike.setEnabled(false);
+            } else {
+                holder.btnLike.setAlpha(1f);
+                holder.btnDislike.setAlpha(1f);
+                holder.btnLike.setEnabled(true);
+                holder.btnDislike.setEnabled(true);
         }
 
         holder.btnLike.setText("Like (" + quiz.getLikes() + ")");
         holder.btnDislike.setText("Dislike (" + quiz.getDislikes() + ")");
+
 
         holder.btnLike.setEnabled(!quiz.hasVoted());
         holder.btnDislike.setEnabled(!quiz.hasVoted());
@@ -87,6 +115,12 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
                 voteStore.saveVoteWithCount(quiz.getId(), true, quiz.getLikes(), quiz.getDislikes());
                 quiz.setHasVoted(true);
                 notifyItemChanged(position);
+
+                FirebaseFirestore.getInstance()
+                                .collection("quizzes")
+                                        .document(quiz.getId())
+                                                .update("likes", FieldValue.increment(1));
+
                 Toast.makeText(context, "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -97,6 +131,11 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
                 voteStore.saveVoteWithCount(quiz.getId(), false, quiz.getLikes(), quiz.getDislikes());
                 quiz.setHasVoted(true);
                 notifyItemChanged(position);
+
+                FirebaseFirestore.getInstance()
+                        .collection("quizzes")
+                        .document(quiz.getId())
+                        .update("dislikes", FieldValue.increment(1));
                 Toast.makeText(context, "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
 
             }

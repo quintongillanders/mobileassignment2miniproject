@@ -34,7 +34,7 @@
         android:text="Admin control panel"
         android:textSize="35sp"
         android:textStyle="bold"
-        android:textColor="#05F80F"/>
+        android:textColor="#05FAE4"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:text="Add Quiz"
         android:textSize="25sp"
         android:id="@+id/btnAdd"
-        android:backgroundTint="#05F80F"
+        android:backgroundTint="#05FAE4"
         android:textColor="@color/black"/>
 
     <Button
@@ -51,7 +51,7 @@
         android:text="Update Quiz"
         android:textSize="25sp"
         android:id="@+id/btnUpdate"
-        android:backgroundTint="#05F80F"
+        android:backgroundTint="#05FAE4"
         android:textColor="@color/black"/>
 
     <Button
@@ -60,7 +60,7 @@
         android:text="Delete Quiz"
         android:textSize="25sp"
         android:id="@+id/btnDelete"
-        android:backgroundTint="#05F80F"
+        android:backgroundTint="#05FAE4"
         android:textColor="@color/black"/>
 
     <Button
@@ -69,7 +69,7 @@
         android:text="Logout"
         android:textSize="25sp"
         android:id="@+id/btnLogout"
-        android:backgroundTint="#05F80F"
+        android:backgroundTint="#05FAE4"
         android:textColor="@color/black"/>
 
 </LinearLayout>

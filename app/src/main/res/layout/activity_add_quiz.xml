@@ -34,7 +34,7 @@ tools:context=".AddQuizActivity">
         android:text="Add quiz"
         android:textSize="35sp"
         android:textStyle="bold"
-        android:textColor="#05F80F"/>
+        android:textColor="#05FAE4"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/quizlist"
@@ -50,7 +50,7 @@ tools:context=".AddQuizActivity">
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#05F80F"
+        android:backgroundTint="#05FAE4"
         android:text="Back"
         android:textColor="@color/black"
         android:textSize="25sp" />

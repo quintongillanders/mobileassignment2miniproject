@@ -32,7 +32,7 @@
             android:layout_width="379dp"
             android:layout_height="wrap_content"
             android:text="Welcome to the Player Hub!"
-            android:textColor="#05F80F"
+            android:textColor="#05FAE4"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="Ongoing Tournaments"
             android:textSize="25sp"
-            android:backgroundTint="#05F80F"
+            android:backgroundTint="#05FAE4"
             android:textColor="@color/black"
             android:id="@+id/btnOngoing"/>
 
@@ -49,7 +49,7 @@
             android:id="@+id/btnUpcoming"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#05F80F"
+            android:backgroundTint="#05FAE4"
             android:text="Upcoming Tournaments"
             android:textColor="@color/black"
             android:textSize="25sp" />
@@ -58,7 +58,7 @@
             android:id="@+id/btnpast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#05F80F"
+            android:backgroundTint="#05FAE4"
             android:text="Past Tournaments"
             android:textColor="@color/black"
             android:textSize="25sp" />
@@ -67,7 +67,7 @@
             android:id="@+id/btnLogout"
             android:layout_width="147dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="#05F80F"
+            android:backgroundTint="#05FAE4"
             android:text="Logout"
             android:textColor="@color/black"
             android:textSize="25sp" />
