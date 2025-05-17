@@ -33,22 +33,17 @@ public class OngoingQuizActivity extends AppCompatActivity {
             return insets;
         });
 
-
-
+        btnBack = findViewById(R.id.btnBack);
         RecyclerView recyclerView = findViewById(R.id.tournamentlist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<TournamentItem> tournaments = TournamentManager.getInstance().getOngoingTournaments();
-        TournamentAdapter adapter = new TournamentAdapter(this, tournaments);
-        btnBack = findViewById(R.id.btnBack);
-
-        TournamentManager.getInstance().loadTournaments(this);
-
 
         TournamentManager manager = TournamentManager.getInstance();
         manager.loadTournaments(this);
         manager.updateTournamentLists();
         manager.moveEndedTournamentsToPast(this);
 
+        List<TournamentItem> tournaments = manager.getOngoingTournaments();
+        TournamentAdapter adapter = new TournamentAdapter(this, tournaments);
         recyclerView.setAdapter(adapter);
 
         btnBack.setOnClickListener(new View.OnClickListener() {

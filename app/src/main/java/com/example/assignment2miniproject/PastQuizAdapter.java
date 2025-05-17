@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.text.Html;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -47,8 +49,6 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
 
         }
 
-        holder.difficultyTextView.setText(quiz.getDifficulty() != null ? quiz.getDifficulty() : "");
-
         if (quiz.getEndDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             holder.endDate.setText("Ended on: " + sdf.format(quiz.getEndDate()));
@@ -56,8 +56,32 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
             holder.endDate.setText("End date not avalilable");
         }
 
+        holder.btnLike.setText("Like (" + quiz.getLikes() + ")");
+        holder.btnDislike.setText("Dislike (" + quiz.getDislikes() + ")");
 
+        holder.btnLike.setEnabled(!quiz.hasVoted());
+        holder.btnDislike.setEnabled(!quiz.hasVoted());
+
+        holder.btnLike.setOnClickListener(v -> {
+            if (!quiz.hasVoted()) {
+                quiz.setLikes(quiz.getLikes() + 1);
+                quiz.setHasVoted(true);
+                notifyItemChanged(position);
+                Toast.makeText(context, "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.btnDislike.setOnClickListener(v -> {
+            if (!quiz.hasVoted()) {
+                quiz.setDislikes(quiz.getDislikes() + 1);
+                quiz.setHasVoted(true);
+                notifyItemChanged(position);
+                Toast.makeText(context, "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -66,19 +90,17 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
 
     public static class PastQuizViewHolder extends RecyclerView.ViewHolder {
         TextView categoryTextView;
-        TextView difficultyTextView;
         TextView endDate;
         Button btnLike, btnDislike;
 
         public PastQuizViewHolder(View itemView) {
             super(itemView);
             categoryTextView = itemView.findViewById(R.id.txtCategory);
-            difficultyTextView = itemView.findViewById(R.id.txtDifficulty);
             btnDislike = itemView.findViewById(R.id.btnDislike);
             btnLike = itemView.findViewById(R.id.btnLike);
             endDate = itemView.findViewById(R.id.txtEndDate);
+
         }
     }
+
 }
-
-

@@ -13,6 +13,9 @@ import android.text.Html;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -21,9 +24,12 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.To
     private Context context;
     private List<TournamentItem> tournamentList;
 
+
+
     public TournamentAdapter(Context context, List<TournamentItem> tournamentList) {
         this.context = context;
         this.tournamentList = tournamentList;
+
     }
 
     @NonNull

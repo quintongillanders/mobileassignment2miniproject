@@ -19,7 +19,7 @@ import java.util.List;
 
 public class UpcomingQuizActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    TournamentAdapter adapter;
+    UpcomingTournamentAdapter adapter;
     List<TournamentItem> upComingList;
 
     Button btnBack;
@@ -31,20 +31,16 @@ public class UpcomingQuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_upcoming_quiz);
 
         btnBack = findViewById(R.id.btnBack);
-
         recyclerView = findViewById(R.id.tournamentlistUpcoming);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        List<TournamentItem> allTournaments = TournamentManager.getInstance().getAllTournaments();
-        upComingList = new ArrayList<>();
+        TournamentManager manager = TournamentManager.getInstance();
+        manager.loadTournaments(this);
+        manager.updateTournamentLists();
 
-        for (TournamentItem item : allTournaments) {
-            if(TournamentUtils.isUpcoming(item)) {
-                upComingList.add(item);
-            }
-        }
+        upComingList = manager.getUpcomingTournaments();
 
-        UpcomingTournamentAdapter adapter  = new UpcomingTournamentAdapter(this, upComingList);
+        adapter = new UpcomingTournamentAdapter(this,upComingList);
         recyclerView.setAdapter(adapter);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

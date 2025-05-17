@@ -27,17 +27,6 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtDifficulty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Difficulty"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-
-        <TextView
             android:id="@+id/txtEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -86,22 +86,29 @@ public class TournamentManager {
 
             if (start == null) {
                 upcomingTournaments.add(t);
+
             } else if (end == null) {
-                if (start.before(now) || start.equals(now)) {
+                if (!start.after(now)) {
                     ongoingTournaments.add(t);
-                } else {
+
+                } else if (end == null) {
                     upcomingTournaments.add(t);
                 }
             } else {
+
                 if (end.before(now)) {
                     pastTournaments.add(t);
-                } else {
-                    upcomingTournaments.add(t);
 
+                } else if (!start.after(now) && !end.before(now)) {
+                    ongoingTournaments.add(t);
+
+                } else if (start.after(now)) {
+                    upcomingTournaments.add(t);
                 }
             }
         }
     }
+
 
     public void moveEndedTournamentsToPast(Context context) {
         Date now = new Date();
