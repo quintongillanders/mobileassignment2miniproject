@@ -32,6 +32,12 @@ public class TournamentManager {
         saveTournaments(context);
     }
 
+    public void deleteTournament(TournamentItem item, Context context) {
+        tournaments.remove(item);
+        pastTournaments.remove(item);
+        saveTournaments(context);
+    }
+
     public List<TournamentItem> getAllTournaments() {
         return tournaments;
     }
@@ -132,3 +138,5 @@ public class TournamentManager {
         }
     }
 }
+
+

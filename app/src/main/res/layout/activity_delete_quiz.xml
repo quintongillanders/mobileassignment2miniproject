@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DeleteQuizActivity">
+    tools:context=".PreviousTournamentActivity">
 
     <ImageView
         android:id="@+id/quizbackground"
@@ -26,6 +26,33 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding = "24dp">
+
+        <TextView
+            android:id="@+id/deleteQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete Tournament"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            android:textColor="#05FAE4"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tournamentlistDelete"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp"
+            android:scrollbars="vertical"/>
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#05FAE4"
+            android:text="Back"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
 
     </LinearLayout>
 </FrameLayout>

@@ -6,12 +6,11 @@ import java.util.List;
 public class QuizItem {
     private String category;
     private String difficulty;
-    private String sampleQuestion;
 
-    public QuizItem(String category, String difficulty, String SampleQuestion) {
+
+    public QuizItem(String category, String difficulty, String questionText) {
         this.category = category;
         this.difficulty = difficulty;
-        this.sampleQuestion = sampleQuestion;
     }
 
     public String getCategory() {
@@ -28,14 +27,6 @@ public class QuizItem {
 
     public void setDifficulty() {
         this.difficulty = difficulty;
-    }
-
-    public void setSampleQuestion(String sampleQuestion) {
-        this.sampleQuestion = sampleQuestion;
-    }
-
-    public String getSampleQuestion() {
-        return sampleQuestion;
     }
 
     public static List<QuizItem> fromQuestions(List<Question> questions) {

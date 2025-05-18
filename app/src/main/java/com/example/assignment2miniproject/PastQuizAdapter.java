@@ -58,16 +58,15 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
 
 
         holder.btnLike.setOnClickListener(v -> {
-                Toast.makeText(context, "Quiz Liked!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Tournament Liked!", Toast.LENGTH_SHORT).show();
 
         });
 
         holder.btnDislike.setOnClickListener(v -> {
-            Toast.makeText(context, "Quiz disliked!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Tournament disliked!", Toast.LENGTH_SHORT).show();
 
         });
     }
-
 
     @Override
     public int getItemCount() {

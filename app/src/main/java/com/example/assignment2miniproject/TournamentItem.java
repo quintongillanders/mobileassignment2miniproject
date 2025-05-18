@@ -5,16 +5,14 @@ import java.util.Date;
 public class TournamentItem {
     private String id;
     private String category;
-    private String sampleQuestion;
     private String difficulty;
 
     private Date startDate;
     private Date endDate;
 
-    private int likes = 0;
-    private int dislikes = 0;
+    private int likeCount;
+    private int dislikeCount;
 
-    private boolean hasVoted = false;
 
     public TournamentItem() {
 
@@ -25,8 +23,8 @@ public class TournamentItem {
         this.difficulty = difficulty;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.likes = 0;
-        this.dislikes = 0;
+        this.likeCount = 0;
+        this.dislikeCount = 0;
 
 
     }
@@ -35,9 +33,6 @@ public class TournamentItem {
         return category;
     }
 
-    public String getSampleQuestion() {
-        return sampleQuestion;
-    }
 
     public String getDifficulty() {
         return difficulty;
@@ -51,35 +46,46 @@ public class TournamentItem {
         return endDate;
     }
 
-    public int getLikes() {
-        return likes;
+    public int getLikeCount() {
+        return likeCount;
     }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
+    public void setLikeCount(int likes) {
+        this.likeCount = likeCount;
     }
 
-    public int getDislikes() {
-        return dislikes;
+    public int getDislikeCount() {
+        return dislikeCount;
     }
 
-    public void setDislikes(int dislikes) {
-        this.dislikes = dislikes;
+    public void setDislikeCount(int dislikes) {
+
+        this.dislikeCount = dislikeCount;
     }
 
-    public boolean hasVoted() {
-        return hasVoted;
+    public void incrementLike() {
+        this.likeCount++;
     }
 
-    public void setHasVoted(boolean hasVoted) {
-        this.hasVoted = hasVoted;
+    public void decrementLike() {
+        if (this.likeCount > 0) this.likeCount--;
     }
+
+    public void incrementDislike() {
+        this.dislikeCount++;
+    }
+
+    public void decrementDislike() {
+        if (this.dislikeCount > 0) this.dislikeCount--;
+    }
+
 
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
+
         this.id = id;
     }
 }
