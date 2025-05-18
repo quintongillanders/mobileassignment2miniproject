@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".AddQuizActivity">
+
+<ImageView
+    android:id="@+id/quizbackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="Background Image"
+    android:scaleType="centerCrop"
+    android:src="@drawable/quizbackground" />
+
+<View
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000"/>
+
+<LinearLayout
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding = "24dp">
+
+    <TextView
+        android:id="@+id/addQuiz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add quiz"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:textColor="#05FAE4"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/quizlist"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/quiz_item" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#05FAE4"
+        android:text="Back"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+
+
+</LinearLayout>
+</FrameLayout>
