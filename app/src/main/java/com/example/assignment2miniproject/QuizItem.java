@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuizItem {
+    private String id;
     private String category;
     private String difficulty;
+
+    private String questionText;
 
 
     public QuizItem(String category, String difficulty, String questionText) {
         this.category = category;
         this.difficulty = difficulty;
+        this.questionText = questionText;
     }
 
     public String getCategory() {
@@ -25,8 +29,16 @@ public class QuizItem {
         return difficulty;
     }
 
-    public void setDifficulty() {
+    public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public static List<QuizItem> fromQuestions(List<Question> questions) {
@@ -38,3 +50,4 @@ public class QuizItem {
 
     }
 }
+

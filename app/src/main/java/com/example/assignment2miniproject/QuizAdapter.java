@@ -77,6 +77,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                                             endCal.getTime()
                                     );
 
+                                    tournament.setLikeCount(0);
+                                    tournament.setDislikeCount(0);
+
                                     TournamentManager.getInstance().addTournament(tournament, v.getContext());
 
                                     Toast.makeText(context, "Tournament created!", Toast.LENGTH_SHORT).show();
@@ -108,7 +111,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     public static class QuizViewHolder extends RecyclerView.ViewHolder {
         TextView categoryTextView;
         TextView difficultyTextView;
-
         Button createTournamentButton;
 
         public QuizViewHolder(View itemView) {

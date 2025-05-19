@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+
 public class TournamentManager {
     private static TournamentManager instance;
     private List<TournamentItem> upcomingTournaments = new ArrayList<>();
@@ -19,7 +20,9 @@ public class TournamentManager {
     private List<TournamentItem> pastTournaments = new ArrayList<>();
     private final List<TournamentItem> tournaments = new ArrayList<>();
 
-    private TournamentManager() {}
+    private TournamentManager() {
+    }
+
     public static TournamentManager getInstance() {
         if (instance == null) {
             instance = new TournamentManager();
@@ -28,6 +31,9 @@ public class TournamentManager {
     }
 
     public void addTournament(TournamentItem item, Context context) {
+        if (item.getId() == null || item.getId().isEmpty()) {
+            item.setId("tournament_" + System.currentTimeMillis());
+        }
         tournaments.add(item);
         saveTournaments(context);
     }
@@ -71,13 +77,21 @@ public class TournamentManager {
 
         if (json != null) {
             Gson gson = new Gson();
-            Type type = new TypeToken<List<TournamentItem>>() {}.getType();
+            Type type = new TypeToken<List<TournamentItem>>() {
+            }.getType();
             List<TournamentItem> loadedTournaments = gson.fromJson(json, type);
             tournaments.clear();
-            tournaments.addAll(loadedTournaments);
 
+            for (TournamentItem t : loadedTournaments) {
+                if (t.getId() == null || t.getId().isEmpty()) {
+                    t.setId("tournament_" + System.currentTimeMillis());
+                }
+                tournaments.add(t);
+
+            }
         }
     }
+
 
     public void updateTournamentLists() {
         upcomingTournaments.clear();
@@ -137,6 +151,45 @@ public class TournamentManager {
             saveTournaments(context);
         }
     }
+
+    public int getLikeCountForTournament(Context context, String tournamentId) {
+        SharedPreferences prefs = context.getSharedPreferences("likes_prefs", Context.MODE_PRIVATE);
+        int count = 0;
+
+        for (String key : prefs.getAll().keySet()) {
+            if (key.endsWith("_" + tournamentId)) {
+                boolean liked = prefs.getBoolean(key, false);
+                if (liked) {
+                    count++;
+                }
+            }
+        }
+        return count;
+
+    }
+
+    public int getDislikeCountForTournament(Context context, String tournamentId) {
+        SharedPreferences prefs = context.getSharedPreferences("likes_prefs", Context.MODE_PRIVATE);
+        int count = 0;
+
+        for (String key : prefs.getAll().keySet()) {
+            if (key.endsWith("_" + tournamentId)) {
+                boolean liked = prefs.getBoolean(key, true);
+                if (!liked) {
+                    count++;
+                }
+            }
+        }
+        return count;
+
+    }
 }
+
+
+
+
+
+
+
 
 

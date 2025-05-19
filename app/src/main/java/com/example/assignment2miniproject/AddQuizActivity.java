@@ -15,6 +15,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,7 +45,7 @@ public class AddQuizActivity extends AppCompatActivity {
     private void fetchQuizQuestions() {
         OpenTDBService api = RetrofitClient.getService();
         Call<OpenTDBResponse> call = api.getQuestions(
-                10,
+                20,
                 null,
                 null,
                 null
@@ -55,6 +58,7 @@ public class AddQuizActivity extends AppCompatActivity {
                     List<Question> questions = response.body().getResults();
 
                     List<QuizItem> quizItems = QuizItem.fromQuestions(questions);
+                    saveQuizzesToFireBase(quizItems);
 
                     quizAdapter = new QuizAdapter(AddQuizActivity.this, quizItems);
                     recyclerView.setAdapter(quizAdapter);
@@ -80,6 +84,22 @@ public class AddQuizActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void saveQuizzesToFireBase(List<QuizItem> quizItems) {
+        DatabaseReference tournamentsRef = FirebaseDatabase.getInstance().getReference("tournaments");
+
+        for (QuizItem quiz : quizItems) {
+            String newId = tournamentsRef.push().getKey();
+            quiz.setId(newId);
+
+            TournamentItem tournamentItem = new TournamentItem(
+                    quiz.getCategory(),
+                    quiz.getDifficulty(),
+                    null,
+                    null
+            );
+        }
     }
 }
 

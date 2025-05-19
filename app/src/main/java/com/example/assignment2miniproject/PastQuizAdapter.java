@@ -12,7 +12,15 @@ import android.text.Html;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -58,13 +66,52 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
 
 
         holder.btnLike.setOnClickListener(v -> {
-                Toast.makeText(context, "Tournament Liked!", Toast.LENGTH_SHORT).show();
-
+            String quizId = quiz.getId();
+            if (quizId == null || quizId.isEmpty()) {
+                Toast.makeText(context, "Quiz ID not found, cannot like quiz", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(context, "Tournament Liked!", Toast.LENGTH_SHORT).show();
+            updateLikeCount(quiz.getId(), true); //  true: liked
         });
 
         holder.btnDislike.setOnClickListener(v -> {
-            Toast.makeText(context, "Tournament disliked!", Toast.LENGTH_SHORT).show();
+            String quizId = quiz.getId();
+            if (quizId == null || quizId.isEmpty()) {
+                Toast.makeText(context, "Quiz ID not found, cannot dislike quiz", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(context, "Tournament Disliked!", Toast.LENGTH_SHORT).show();
+            updateLikeCount(quiz.getId(), true); //  true: liked
+        });
+    }
+    private void updateLikeCount(String quizId, boolean isLike) {
+        DatabaseReference quizRef = FirebaseDatabase.getInstance()
+                .getReference("tournaments")
+                .child(quizId);
 
+        quizRef.runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                TournamentItem currentQuiz = currentData.getValue(TournamentItem.class);
+                if (currentQuiz == null) return Transaction.success(currentData);
+
+                if (isLike) {
+                    currentQuiz.setLikeCount(currentQuiz.getLikeCount() + 1);
+                } else {
+                    currentQuiz.setDislikeCount(currentQuiz.getDislikeCount() + 1);
+                }
+                currentData.setValue(currentQuiz);
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                if (error != null) {
+                    Toast.makeText(context, "Failed to update, Please try again later", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
     }
 

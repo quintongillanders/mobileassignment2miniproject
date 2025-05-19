@@ -15,9 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class DeleteQuizAdapter extends RecyclerView.Adapter<DeleteQuizAdapter.DeleteQuizViewHolder> {
     private Context context;
@@ -48,8 +46,10 @@ public class DeleteQuizAdapter extends RecyclerView.Adapter<DeleteQuizAdapter.De
 
         }
 
-        holder.txtLikes.setText("❤️: " + quiz.getLikeCount());
-        holder.txtDislikes.setText("💔: " + quiz.getDislikeCount());
+        int likeCount = TournamentManager.getInstance().getLikeCountForTournament(context, quiz.getId());
+        int dislikeCount = TournamentManager.getInstance().getDislikeCountForTournament(context, quiz.getId());
+        holder.txtLikes.setText("❤️: " + likeCount);
+        holder.txtDislikes.setText("💔: " + dislikeCount);
 
         holder.btnDelete.setOnClickListener(v -> {
             new AlertDialog.Builder(context)
@@ -72,7 +72,6 @@ public class DeleteQuizAdapter extends RecyclerView.Adapter<DeleteQuizAdapter.De
                             .show();
         });
     }
-
 
     @Override
     public int getItemCount() {
