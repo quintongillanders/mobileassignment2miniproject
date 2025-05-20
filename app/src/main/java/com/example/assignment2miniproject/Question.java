@@ -6,6 +6,7 @@ public class Question {
     private String difficulty;
     private String question;
     private String correct_answer;
+    private String[] incorrect_answer;
 
     public String getCategory() {
         return category;
@@ -30,4 +31,9 @@ public class Question {
     public String getQuestionText() {
         return question;
     }
-}
+
+        public String[] getIncorrectAnswer() {
+            return incorrect_answer;
+        }
+    }
+

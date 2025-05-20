@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.text.Html;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
 
 public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.TournamentViewHolder> {
     private Context context;
@@ -62,8 +65,41 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.To
         }
 
         holder.beginTournamentButton.setOnClickListener(v -> {
-           // todo: handle begin tournament
-        });
+           TournamentItem tournament = tournamentList.get(position);
+
+           OpenTDBService service = RetrofitClient.getService();
+
+           Call<OpenTDBResponse> call = service.getQuestions(
+                   10,
+                   tournament.getCategoryId(),
+                   tournament.getDifficulty(),
+                   null
+        );
+
+           call.enqueue(new retrofit2.Callback<OpenTDBResponse>() {
+               @Override
+               public void onResponse(Call<OpenTDBResponse> call, retrofit2.Response<OpenTDBResponse> response) {
+                   if (response.isSuccessful() && response.body() != null){
+                       List<Question> questions = response.body().getResults();
+
+                       // todo: pass to next screen
+                       saveTournamentWithQuestions(tournament, questions);
+
+                       // todo: navigate to quiz screen
+                  // } else {
+                       Toast.makeText(context, "Error getting questions", Toast.LENGTH_SHORT).show();
+                       }
+                   }
+
+                   @Override
+                public void onFailure(Call<OpenTDBResponse> call, Throwable t) {
+                   Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
+                   }
+               });
+           });
+    }
+
+    private void saveTournamentWithQuestions(TournamentItem tournament, List<Question> questions) {
     }
 
     @Override

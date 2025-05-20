@@ -1,6 +1,8 @@
 package com.example.assignment2miniproject;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TournamentItem {
     private String id;
@@ -108,6 +110,38 @@ public class TournamentItem {
 
     public void decrementDislike() {
         if (this.dislikeCount > 0) this.dislikeCount--;
+    }
+
+    public Integer getCategoryId() {
+        if (category == null) return null;
+
+        Map<String, Integer> categoryMap = new HashMap<>();
+        categoryMap.put("General Knowledge", 9);
+        categoryMap.put("Entertainment: Books", 10);
+        categoryMap.put("Entertainment: Film", 11);
+        categoryMap.put("Entertainment: Music", 12);
+        categoryMap.put("Entertainment: Musicals & Theatres", 13);
+        categoryMap.put("Entertainment: Television", 14);
+        categoryMap.put("Entertainment: Video Games", 15);
+        categoryMap.put("Entertainment: Board Games", 16);
+        categoryMap.put("Science & Nature", 17);
+        categoryMap.put("Science: Computers", 18);
+        categoryMap.put("Science: Mathematics", 19);
+        categoryMap.put("Mythology", 20);
+        categoryMap.put("Sports", 21);
+        categoryMap.put("Geography", 22);
+        categoryMap.put("History", 23);
+        categoryMap.put("Politics", 24);
+        categoryMap.put("Art", 25);
+        categoryMap.put("Celebrities", 26);
+        categoryMap.put("Animals", 27);
+        categoryMap.put("Vehicles", 28);
+        categoryMap.put("Entertainment: Comics", 29);
+        categoryMap.put("Science: Gadgets", 30);
+        categoryMap.put("Entertainment: Japanese Anime & Manga", 31);
+        categoryMap.put("Entertainment: Cartoon & Animations", 32);
+
+        return categoryMap.getOrDefault(category, null);
     }
 }
 
