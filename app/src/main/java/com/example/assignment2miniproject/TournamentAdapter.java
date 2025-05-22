@@ -2,6 +2,7 @@ package com.example.assignment2miniproject;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,12 +82,13 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.To
                public void onResponse(Call<OpenTDBResponse> call, retrofit2.Response<OpenTDBResponse> response) {
                    if (response.isSuccessful() && response.body() != null){
                        List<Question> questions = response.body().getResults();
-
-                       // todo: pass to next screen
                        saveTournamentWithQuestions(tournament, questions);
 
                        // todo: navigate to quiz screen
-                  // } else {
+                       Intent intent = new Intent(context, PlayQuizActivity.class);
+                       intent.putExtra("tournamentName", tournament.getCategory());
+                       context.startActivity(intent);
+                   } else {
                        Toast.makeText(context, "Error getting questions", Toast.LENGTH_SHORT).show();
                        }
                    }
@@ -100,6 +102,7 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.To
     }
 
     private void saveTournamentWithQuestions(TournamentItem tournament, List<Question> questions) {
+        QuizDataHolder.getInstance().setQuestions(questions);
     }
 
     @Override

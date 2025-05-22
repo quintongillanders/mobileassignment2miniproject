@@ -1,12 +1,17 @@
 package com.example.assignment2miniproject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Question {
     private String category;
     private String type;
     private String difficulty;
     private String question;
     private String correct_answer;
-    private String[] incorrect_answer;
+    private String[] incorrect_answers;
 
     public String getCategory() {
         return category;
@@ -32,8 +37,22 @@ public class Question {
         return question;
     }
 
-        public String[] getIncorrectAnswer() {
-            return incorrect_answer;
+        public String[] getIncorrect_answers() {
+            return incorrect_answers;
         }
+
+        public List<String> getAllAnswersShuffled() {
+    List<String> allAnswers= new ArrayList<>();
+
+    if (incorrect_answers != null) {
+        allAnswers.addAll(Arrays.asList(incorrect_answers));
     }
+
+    if (correct_answer != null) {
+        allAnswers.add(correct_answer);
+    }
+        Collections.shuffle(allAnswers);
+            return allAnswers;
+        }
+}
 

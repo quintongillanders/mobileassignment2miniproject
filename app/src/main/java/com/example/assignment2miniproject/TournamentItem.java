@@ -116,6 +116,7 @@ public class TournamentItem {
         if (category == null) return null;
 
         Map<String, Integer> categoryMap = new HashMap<>();
+        // all of these quiz IDs come from https://OpenTDB.com
         categoryMap.put("General Knowledge", 9);
         categoryMap.put("Entertainment: Books", 10);
         categoryMap.put("Entertainment: Film", 11);
