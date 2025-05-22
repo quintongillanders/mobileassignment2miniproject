@@ -15,7 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class DeleteQuizAdapter extends RecyclerView.Adapter<DeleteQuizAdapter.DeleteQuizViewHolder> {
     private Context context;
@@ -46,10 +48,13 @@ public class DeleteQuizAdapter extends RecyclerView.Adapter<DeleteQuizAdapter.De
 
         }
 
-        int likeCount = TournamentManager.getInstance().getLikeCountForTournament(context, quiz.getId());
-        int dislikeCount = TournamentManager.getInstance().getDislikeCountForTournament(context, quiz.getId());
-        holder.txtLikes.setText("❤️: " + likeCount);
-        holder.txtDislikes.setText("💔: " + dislikeCount);
+        if (quiz.getEndDate() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            holder.endDate.setText("Ended on: " + sdf.format(quiz.getEndDate()));
+        } else {
+            holder.endDate.setText("End date not avalilable");
+        }
+
 
         holder.btnDelete.setOnClickListener(v -> {
             new AlertDialog.Builder(context)
@@ -79,15 +84,14 @@ public class DeleteQuizAdapter extends RecyclerView.Adapter<DeleteQuizAdapter.De
     }
 
     public static class DeleteQuizViewHolder extends RecyclerView.ViewHolder {
-        TextView categoryTextView, txtLikes, txtDislikes;
+        TextView categoryTextView, endDate;
         Button btnDelete;
 
         public DeleteQuizViewHolder(View itemView) {
             super(itemView);
             categoryTextView = itemView.findViewById(R.id.txtCategory);
-            txtLikes = itemView.findViewById(R.id.txtLike);
-            txtDislikes = itemView.findViewById(R.id.txtDislike);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            endDate = itemView.findViewById(R.id.txtEndDate);
 
         }
     }

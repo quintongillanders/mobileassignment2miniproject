@@ -83,8 +83,8 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.To
                    if (response.isSuccessful() && response.body() != null){
                        List<Question> questions = response.body().getResults();
                        saveTournamentWithQuestions(tournament, questions);
+                       Toast.makeText(context, "Good Luck!", Toast.LENGTH_SHORT).show();
 
-                       // todo: navigate to quiz screen
                        Intent intent = new Intent(context, PlayQuizActivity.class);
                        intent.putExtra("tournamentName", tournament.getCategory());
                        context.startActivity(intent);

@@ -2,6 +2,7 @@ package com.example.assignment2miniproject;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
     private Context context;
     private List<TournamentItem> quizList;
 
-
+    private static final String PREFS_NAME = "QuizLikePrefs";
 
     public PastQuizAdapter(Context context, List<TournamentItem> quizList) {
         this.context = context;
@@ -64,54 +65,32 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
             holder.endDate.setText("End date not avalilable");
         }
 
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        int savedLikes = prefs.getInt("likes_" + quiz.getId(), quiz.getLikeCount());
+        int savedDislikes = prefs.getInt("dislikes_" + quiz.getId(), quiz.getDislikeCount());
+
+        quiz.setLikeCount(savedLikes);
+        quiz.setDislikeCount(savedDislikes);
+
+        holder.btnLike.setText("👍 (" + quiz.getLikeCount() + ")");
+        holder.btnDislike.setText("👎 (" + quiz.getDislikeCount() + ")");
 
         holder.btnLike.setOnClickListener(v -> {
-            String quizId = quiz.getId();
-            if (quizId == null || quizId.isEmpty()) {
-                Toast.makeText(context, "Quiz ID not found, cannot like quiz", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Toast.makeText(context, "Tournament Liked!", Toast.LENGTH_SHORT).show();
-            updateLikeCount(quiz.getId(), true); //  true: liked
+            int newLikes = quiz.getLikeCount() + 1;
+            quiz.setLikeCount(newLikes);
+            prefs.edit().putInt("likes_" + quiz.getId(), newLikes).apply();
+            holder.btnLike.setText("👍 (" + quiz.getLikeCount() + ")");
+            Toast.makeText(context, "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
         });
+
 
         holder.btnDislike.setOnClickListener(v -> {
-            String quizId = quiz.getId();
-            if (quizId == null || quizId.isEmpty()) {
-                Toast.makeText(context, "Quiz ID not found, cannot dislike quiz", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Toast.makeText(context, "Tournament Disliked!", Toast.LENGTH_SHORT).show();
-            updateLikeCount(quiz.getId(), true); //  true: liked
-        });
-    }
-    private void updateLikeCount(String quizId, boolean isLike) {
-        DatabaseReference quizRef = FirebaseDatabase.getInstance()
-                .getReference("tournaments")
-                .child(quizId);
-
-        quizRef.runTransaction(new Transaction.Handler() {
-            @NonNull
-            @Override
-            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
-                TournamentItem currentQuiz = currentData.getValue(TournamentItem.class);
-                if (currentQuiz == null) return Transaction.success(currentData);
-
-                if (isLike) {
-                    currentQuiz.setLikeCount(currentQuiz.getLikeCount() + 1);
-                } else {
-                    currentQuiz.setDislikeCount(currentQuiz.getDislikeCount() + 1);
-                }
-                currentData.setValue(currentQuiz);
-                return Transaction.success(currentData);
-            }
-
-            @Override
-            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
-                if (error != null) {
-                    Toast.makeText(context, "Failed to update, Please try again later", Toast.LENGTH_SHORT).show();
-                }
-            }
+            int newDislikes = quiz.getDislikeCount() + 1;
+            quiz.setDislikeCount(newDislikes);
+            prefs.edit().putInt("dislikes_" + quiz.getId(), newDislikes).apply();
+            holder.btnDislike.setText("👎 (" + quiz.getDislikeCount() + ")");
+            Toast.makeText(context, "Thank you for your feedback!", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -119,7 +98,6 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
     public int getItemCount() {
         return quizList.size();
     }
-
     public static class PastQuizViewHolder extends RecyclerView.ViewHolder {
         TextView categoryTextView;
         TextView endDate;
@@ -134,5 +112,4 @@ public class PastQuizAdapter extends RecyclerView.Adapter<PastQuizAdapter.PastQu
 
         }
     }
-
 }

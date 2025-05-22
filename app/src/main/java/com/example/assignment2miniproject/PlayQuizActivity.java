@@ -95,8 +95,6 @@ public class PlayQuizActivity extends AppCompatActivity {
             }
 
             Question q = questionList.get(currentQuestionIndex);
-
-
             txtQuestion.setText(Html.fromHtml(q.getQuestionText(), Html.FROM_HTML_MODE_LEGACY));
 
             List<String> answers = q.getAllAnswersShuffled();
@@ -109,6 +107,12 @@ public class PlayQuizActivity extends AppCompatActivity {
                 } else {
                     optionButtons[i].setVisibility(View.GONE);
                 }
+            }
+
+            if (currentQuestionIndex == questionList.size() - 1) {
+                btnNext.setText("Finish Tournament");
+            } else {
+                btnNext.setText("Next");
             }
         }
 

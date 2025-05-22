@@ -27,13 +27,24 @@
         android:gravity="center"
         android:padding = "24dp">
 
+        <TextView
+            android:id="@+id/txtThankYou"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Thank you for playing Quiz Central!"
+            android:textColor="#05FAE4"
+            android:textSize="23sp"
+            android:textStyle="bold" />
+
     <TextView
         android:id="@+id/txtResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Final Score: 0 / 10"
         android:textSize="30sp"
-        android:textColor="@color/white"
+        android:textColor="#05FAE4"
+        android:textStyle="bold"
         android:layout_gravity="center"/>
 
     <Button

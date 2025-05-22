@@ -37,20 +37,12 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtLike"
+            android:id="@+id/txtEndDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:text="❤️ 0 "
-            android:textColor="@android:color/black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/txtDislike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="💔 0"
+            android:text="Ended on: "
+            android:textStyle="bold"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 

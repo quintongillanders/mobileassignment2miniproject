@@ -114,7 +114,7 @@ public class TournamentItem {
 
     public Integer getCategoryId() {
         if (category == null) return null;
-
+        category = android.text.Html.fromHtml(category).toString().trim();
         Map<String, Integer> categoryMap = new HashMap<>();
         // all of these quiz IDs come from https://OpenTDB.com
         categoryMap.put("General Knowledge", 9);
