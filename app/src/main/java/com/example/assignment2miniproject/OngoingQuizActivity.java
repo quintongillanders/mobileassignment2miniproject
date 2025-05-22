@@ -46,6 +46,10 @@ public class OngoingQuizActivity extends AppCompatActivity {
         TournamentAdapter adapter = new TournamentAdapter(this, tournaments);
         recyclerView.setAdapter(adapter);
 
+        if (tournaments.isEmpty()) {
+            Toast.makeText(this, "No ongoing tournaments at this time, check back later!", Toast.LENGTH_SHORT).show();
+        }
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

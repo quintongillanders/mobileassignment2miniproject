@@ -51,7 +51,7 @@ public class TournamentItem {
         return category;
     }
 
-    public void setCategory() {
+    public void setCategory(String category) {
         this.category = category;
     }
 

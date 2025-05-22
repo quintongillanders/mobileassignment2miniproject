@@ -39,9 +39,12 @@ public class UpcomingQuizActivity extends AppCompatActivity {
         manager.updateTournamentLists();
 
         upComingList = manager.getUpcomingTournaments();
-
         adapter = new UpcomingTournamentAdapter(this,upComingList);
         recyclerView.setAdapter(adapter);
+
+        if (upComingList.isEmpty()) {
+            Toast.makeText(this, "No upcoming tournaments, check back later!", Toast.LENGTH_SHORT).show();
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
